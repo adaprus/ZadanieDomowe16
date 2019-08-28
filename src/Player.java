@@ -17,9 +17,6 @@ public class Player {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName.equals(null)){
-            throw new NullPointerException("Podaj poprawne imię");
-        }
         this.firstName = firstName;
     }
 
@@ -28,9 +25,6 @@ public class Player {
     }
 
     public void setLastName(String lastName) {
-        if (lastName.equals(null)){
-            throw new NullPointerException("Podaj poprawne nazwisko");
-        }
         this.lastName = lastName;
     }
 
@@ -40,7 +34,7 @@ public class Player {
 
     public void setScore(int score) {
         if(score < 0) {
-            throw new IllegalArgumentException("Wynik gracza musi być liczbą nieujemną");
+            throw new IllegalArgumentException();
         }
         this.score = score;
     }

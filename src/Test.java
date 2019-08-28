@@ -5,22 +5,25 @@ import java.util.Scanner;
 
 public class Test {
     private static Scanner scanner = new Scanner(System.in);
-    private static List<Player> players;
     private static File file = new File("wyniki.csv");
 
     public static void main(String[] args) {
 
         try {
-            players = createPlayersList();
+            List<Player> players = createPlayersList();
             players.sort(new ScoreComparator());
-            saveScores();
-        } catch (IllegalArgumentException | NullPointerException | IOException | ArrayIndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+            try {
+                saveScores(players);
+            } catch (IOException e){
+                System.err.println("Bład pliku");
+            }
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+            System.out.println("Wprowadź poprawne dane");
         }
     }
 
     private static List<Player> createPlayersList() {
-        System.out.println("Podaj wynik gracza lub STOP:");
+        System.out.println("Podaj wynik gracza (w formacie IMIE NAZWISKO WYNIK) lub STOP:");
         String line = scanner.nextLine();
         List<Player> players = new ArrayList<>();
         String[] data;
@@ -32,13 +35,13 @@ public class Test {
             player.setLastName(data[1]);
             player.setScore(Integer.valueOf(data[2]));
             players.add(player);
-            System.out.println("Podaj wynik gracza lub STOP:");
+            System.out.println("Podaj wynik gracza (w formacie IMIE NAZWISKO WYNIK) lub STOP:");
             line = scanner.nextLine();
         }
         return players;
     }
 
-    private static void saveScores() throws IOException {
+    private static void saveScores(List<Player> players) throws IOException {
         BufferedWriter br = new BufferedWriter(new FileWriter(file));
         for (Player player : players) {
             br.write(player.getFirstName() + ";" + player.getLastName() + ";" + player.getScore());
